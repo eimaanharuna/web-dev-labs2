@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,15 +22,36 @@
 </head>
 <body>
 <h1>Product</h1>
+<h2>Products that are in Stock</h2>
+<div id = "ex1"></div>
+<h2>Electronics products with rating above 4.3</h2>
+<div id = "ex2"></div>
+
 <table></table>
+<h2>Total Value of In-Stock Products</h2>
+<div></div>
+
+
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
 
 <script id="original" type="text/x-handlebars-template">
 <tr><th>Name</th><th>Category</th><th>Price</th><th>Rating</th><th>In Stock</th></tr>
 {{#each this}}
-  <tr><td>{{name}}</td><td>{{upper category}}</td><td>{{price}}</td><td>{{rating}}</td><td>{{checkStock inStock}}</td></tr>
+  <tr><td>{{name}}</td><td>{{upper category}}</td><td>{{price}}</td><td>{{rating}}</td><td>{{testStock inStock}}</td></tr>
 {{/each}}
+</script>
+
+<script id="filter1" type="text/x-handlebars-template">
+  {{#if this}}
+  <table>
+<tr><th>Name</th><th>Category</th><th>Price</th><th>Rating</th></tr>
+{{#each this}}
+  <tr><td>{{name}}</td><td>{{category}}</td><td>{{price}}</td><td>{{rating}}</td></tr>
+{{/each}}
+  </table>
+  {{/if}}
 </script>
 
 <script>
@@ -52,31 +74,22 @@ const products = [
   { id: 15, name: "Refrigerator", category: "Home Appliances", price: 1400, rating: 4.3, inStock: false }
 ];
 
-Handlebars.registerHelper("checkStock" , inStock => 
-  inStock ? "Yes" : "No"
-);
-
-Handlebars.registerHelper("upper" , category => 
-  category.toUpperCase()
-);
-
+Handlebars.registerHelper(`testStock` , inStock => inStock? "Yes":"No")
+Handlebars.registerHelper(`upper` , category => category.toUpperCase())
 const renderTemplate = (templateSelector, data, targetSelector) => {
   const templateSource = document.querySelector(templateSelector).innerHTML;
   const template = Handlebars.compile(templateSource);
-  const output = template(data); // passing the data
+  const output = template(data);
   const target = document.querySelector(targetSelector);
   return target.innerHTML = output;
 }
 
-const sum = (total, product) => total + product.price;
-const filtered = products.filter(product => product.inStock)
-let totalPrice = filtered.reduce (sum, 0)
-let options = {style: 'currency', currency: '{UR}'}
-document.querySelector('div').innerHTML = 'Total Value: 
-$'{totalPrice.toLocaleString('en-IE', options)}'';
-
 renderTemplate('#original', products, 'table');
-
+const sum = (total , product)=> total + product.price;
+const filtered = products.filter(product => product.inStock);
+let totalprice = filtered.reduce(sum ,0);
+let options = {style:'currency', currency : 'EUR'}
+document.querySelector('div').innerHTML = `Total Value : ${totalprice.toLocaleString("en-IE",options)}`
 </script>
 </body>
 </html>
