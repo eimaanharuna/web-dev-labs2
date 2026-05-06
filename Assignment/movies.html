@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.4/semantic.min.css">
+    <title>Movie Database</title>
+    <style>
+        .ui.container { margin-top: 5%; width: 90% !important; }
+        #displayContainer { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        body { background-image: url(images/wallpaper2.jpg); background-size: cover; background-attachment: fixed; }
+        dialog { border: none; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); width: 450px; padding: 20px; }
+        dialog::backdrop { background: rgba(0, 0, 0, 0.7); }
+    </style>
+    
+</head>
+
+<body>
+   <header class="ui center aligned container">
+    <h1 class="ui center aligned header" style="color: rgb(0, 38, 255); margin-bottom: 0;">Eimaan haruna</h1>
+    
+    <div class="ui breadcrumb" style="display: block; margin: 0 auto;">
+        <a class="section" href="index.html">About Me</a>
+        <div class="divider"> / </div>
+        <div class="active section">
+            ☆⋆｡𖦹°‧★ <a href="index.html">Click here to return to home page!</a>
+        </div>
+    </div>
+    
+    <p id="tagline" style="text-align: center;">"What you are not changing, you're choosing."</p>
+</header>
+    <div class="ui container">
+        <h1 class="ui center aligned header" style="color: rgb(19, 32, 150); font-size: 3em;">˖.𖥔 ݁ ˖ ⊹ Movie Database ⋆｡°✩</h1>
+        
+        <nav class="ui segment" style="background: rgba(255, 255, 255, 0.1);">
+            <div class="ui form">
+                <div class="inline field">
+                    <label style="color: white;">˖.𖥔 ݁ ˖ ⊹ Search Movies ⋆｡°✩ </label>
+                    <input type="text" id="search" placeholder="Search by Title...">
+                </div>
+            </div>
+            <div class="ui bulleted list">
+                <div class="item"><a href="movie.html">˖.𖥔 ݁ ˖ ⊹ View Movies ⋆｡°✩</a></div>
+            </div>
+        </nav>
+
+        <main>
+            <button id="toggle" class="ui primary button">Add a Movie</button> 
+            <div id="displayContainer" class="ui link cards"></div>
+        </main>
+
+        <dialog id="movieDialog">
+            <h2>Add a Movie <span id="close" style="float:right; cursor:pointer;">&times;</span></h2>
+            <form id="inputForm" class="ui form">
+                <div class="field"><label>ID</label><input type="text" name="reg" required></div>
+                <div class="field"><label>Title</label><input type="text" name="make" required></div>
+                <div class="field"><label>Genre</label><input type="text" name="model" required></div>
+                <div class="field"><label>Year</label><input type="number" name="year" required></div>
+                <div class="field"><label>Rating</label><input type="number" step="0.1" name="kms" required></div>
+                <div class="field"><label>Image URL</label><input type="url" name="img" required></div>
+                <button type="submit" class="ui green button">Save Movie</button>
+            </form>
+        </dialog>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+    <script src="js/movies.js"></script>
+
+    <script id="cardisplay" type="text/x-handlebars-template">
+        {{#each this}}
+            <div class="ui card">
+                <div class="image"><img src="{{img}}" style="height: 250px; object-fit: cover;"></div>
+                <div class="content">
+                    <div class="header">{{title}}</div>
+                    <div class="meta">Released: {{year}}</div>
+                    <div class="description">
+                        Genre: {{genre}} | Rating: {{formatRating rating}}
+                    </div>
+                </div>
+                <div class="extra content">
+                    <button class="ui red fluid button delete-btn" data-id="{{regNo}}">Delete</button>
+                </div>
+            </div>
+        {{/each}}
+    </script>
+
+    <script>
+        window.onload = function() {
+            const form = document.querySelector("#inputForm");
+            const displayContainer = document.querySelector("#displayContainer");
+            const btnOpen = document.querySelector("#toggle");
+            const dialog = document.querySelector("#movieDialog");
+            const btnClose = document.querySelector("#close");
+            const searchInput = document.querySelector("#search");
+            
+            const templateSource = document.querySelector('#cardisplay').innerHTML;
+            const template = Handlebars.compile(templateSource);
+
+            const displayRecs = (data) => {
+                displayContainer.innerHTML = template(data);
+        displayContainer.addEventListener("click", (evt) => {
+    if (evt.target.classList.contains("delete-btn")) {
+        const idToDelete = evt.target.dataset.id;
+        const deleteIndex = movieData.findIndex(movie => movie.regNo === idToDelete);
+        if (deleteIndex !== -1) {
+            movieData.splice(deleteIndex, 1);
+            localStorage.setItem("movies_db", JSON.stringify(movieData));
+            displayRecs(movieData);
+            console.log("Deleted movie ID:", idToDelete);
+        }
+    }
+});
+            };
+
+            // Modal Logic
+            btnOpen.onclick = () => dialog.showModal();
+            btnClose.onclick = () => dialog.close();
+
+            // Add Record
+            form.onsubmit = (evt) => {
+                evt.preventDefault();
+                const newMovie = {
+                    regNo: form.elements.reg.value,
+                    title: form.elements.make.value,
+                    genre: form.elements.model.value,
+                    year: parseInt(form.elements.year.value),
+                    rating: parseFloat(form.elements.kms.value),
+                    img: form.elements.img.value
+                };
+                movieData.push(newMovie);
+                localStorage.setItem("movies_db", JSON.stringify(movieData));
+                displayRecs(movieData);
+                form.reset();
+                dialog.close();
+            };
+
+            // Search
+            searchInput.oninput = () => {
+                const query = searchInput.value.toLowerCase();
+                const filtered = movieData.filter(m => m.title.toLowerCase().includes(query));
+                displayRecs(filtered);
+            };
+
+            // Initial Display
+            displayRecs(movieData);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.4/semantic.min.css">
+    <title>Movie Database - View Gallery</title>
+    <style>
+        .ui.container { margin-top: 2%; width: 90% !important; }
+        #displayContainer { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        
+        
+        .nav-box { 
+            background: rgba(255, 255, 255, 0.1) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            backdrop-filter: blur(5px);
+        }
+
+        
+        .ui.card .description { font-style: italic; font-weight: bold; }
+        .ui.card .date { color: rgb(17, 0, 255); }
+        
+        body { 
+            background-image: url(images/wallpaper2.jpg); 
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+            background-size: cover; 
+        }
+
+        
+        #tagline { font-style: italic; margin-top: 5px; color: #2842d4; }
+        .ui.breadcrumb .section, .ui.breadcrumb .divider { color: rgba(40, 24, 255, 0.8) !important; }
+        .ui.breadcrumb .active.section { color: rgb(0, 0, 0) !important; font-weight: bold; }
+        
+        a { text-decoration: none; color: rgb(56, 47, 136) !important; }
+        label { color: rgb(42, 100, 185) !important; }
+
+        
+        #averageRatingDisplay {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #1808fb; 
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ui container">
+        
+        <header class="ui center aligned container">
+    <h1 class="ui center aligned header" style="color: rgb(0, 0, 0); margin-bottom: 0;">Eimaan haruna</h1>
+    
+    <div class="ui breadcrumb" style="display: block; margin: 0 auto;">
+        <a class="section" href="index.html">About Me</a>
+        <div class="divider"> / </div>
+        <div class="active section">
+            ☆⋆｡𖦹°‧★ <a href="index.html">Click here to return to home page!</a>
+        </div>
+    </div>
+    
+    <p id="tagline" style="text-align: center;">"What you are not changing, you're choosing."</p>
+</header>
+
+        <div class="ui divider"></div>
+
+        <h1 class="ui center aligned header" style="color: rgb(19, 32, 150); font-size: 3em;">˖.𖥔 ݁ ˖ ⊹ Movie Database ⋆｡°✩</h1>
+        
+        <nav class="ui segment nav-box">
+            <form id="searchForm" class="ui form">
+                <div class="inline fields">
+                    <div class="field">
+                        <label>˖.𖥔 ݁ ˖ ⊹ Search Movies</label>
+                        <input type="text" id="search" placeholder="Search by Title..." size="30">
+                    </div>
+                    <div class="field">
+                        <label>˖.𖥔 ݁ ˖ ⊹ Sort by Year ⋆｡°✩:</label> 
+                        <div class="ui buttons">
+                            <button type="button" id="sortAsc" class="ui compact button">˖.𖥔 ݁ ˖ ⊹ Oldest</button>
+                            <div class="or"></div>
+                            <button type="button" id="sortDesc" class="ui compact button">Newest ⋆｡°✩</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div id="averageRatingDisplay">
+                <i></i> ˖.𖥔 ݁ ˖ ⊹Average Community Rating: <span id="avgValue">0.0</span>/10 ⋆｡°✩
+            </div>
+
+            <div class="ui bulleted list" style="margin-top: 10px;">
+                <div class="item"><a href="movies.html">˖.𖥔 ݁ ˖ ⊹ Add a movie! ⋆｡°✩</a></div>
+            </div>
+        </nav>
+
+        <main>
+            <div id="displayContainer" class="ui link cards"></div>
+        </main>
+    </div>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+    <script src="js/movies.js"></script>
+
+    <script id="cardisplay" type="text/x-handlebars-template">
+        {{#each this}}
+            <div class="ui card">
+                <div class="image">
+                    <img src="{{img}}" style="height: 300px; object-fit: cover;">
+                </div>
+                <div class="content">
+                    <div class="header">{{title}}</div>
+                    <div class="meta"><span class="date">Released: {{year}}</span></div>
+                    <div class="description">Genre: {{genre}} | Rating: {{rating}}</div>
+                </div>
+                <div class="extra content">
+                    <button class="ui red fluid button delete-btn" data-id="{{regNo}}">Delete</button>
+                </div>
+            </div>
+        {{/each}}
+    </script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const displayContainer = document.querySelector("#displayContainer");
+            const searchInput = document.querySelector("#search");
+            const sortAscBtn = document.querySelector("#sortAsc");
+            const sortDescBtn = document.querySelector("#sortDesc");
+            const avgDisplay = document.querySelector("#avgValue");
+            
+            const templateSource = document.querySelector('#cardisplay').innerHTML;
+            const template = Handlebars.compile(templateSource);
+
+            // HELPER: SAVE DATA
+            const saveData = () => {
+                localStorage.setItem('moviesplus', JSON.stringify(movieData));
+            };
+
+            // HELPER: CALCULATE AVERAGE
+            const updateAverageRating = (data) => {
+                if (data.length === 0) {
+                    avgDisplay.textContent = "0.0";
+                    return;
+                }
+                const total = data.reduce((sum, movie) => sum + Number(movie.rating), 0);
+                const average = total / data.length;
+                avgDisplay.textContent = average.toFixed(1);
+            };
+
+            // MAIN RENDER FUNCTION
+            const displayRecs = (data) => {
+                displayContainer.innerHTML = template(data);
+                updateAverageRating(data);
+            };
+
+            // SORT: ASCENDING
+            sortAscBtn.addEventListener("click", () => {
+                const sorted = [...movieData].sort((a, b) => a.year - b.year);
+                displayRecs(sorted);
+            });
+
+            // SORT: DESCENDING
+            sortDescBtn.addEventListener("click", () => {
+                const sorted = [...movieData].sort((a, b) => b.year - a.year);
+                displayRecs(sorted);
+            });
+
+            // SEARCH/FILTER
+            searchInput.addEventListener("input", () => {
+                const query = searchInput.value.trim().toLowerCase();
+                const filtered = movieData.filter(m => m.title.toLowerCase().includes(query));
+                displayRecs(filtered);
+            });
+
+            // DELETE FUNCTIONALITY
+            displayContainer.addEventListener("click", (evt) => {
+                if (evt.target.classList.contains("delete-btn")) {
+                    const idToDelete = evt.target.dataset.id;
+                    const deleteIndex = movieData.findIndex(m => m.regNo === idToDelete);
+                    if (deleteIndex !== -1) {
+                        movieData.splice(deleteIndex, 1);
+                        saveData();
+                        displayRecs(movieData);
+                    }
+                }
+            });
+
+            // INITIAL LOAD
+            displayRecs(movieData);
+        });
+    </script>
+</body>
+</html>

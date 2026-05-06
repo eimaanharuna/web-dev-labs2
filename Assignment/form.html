@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Personal Website</title>
+    <link rel="stylesheet" href="css/form.css">
+  </head>
+
+  <body>
+    <div id="container">
+      <header>
+        <h1>Personal Website</h1>
+        <div class="ui container"> 
+        <header>
+<div class="ui breadcrumb">
+  <div class="active section">☆⋆｡𖦹°‧★ <a href="index.html">Click here to return to home page!</a></div>
+</div>
+      </header>
+      <main>
+        <section id="form">
+          <h2>Feedback for Eimaan Haruna</h2>
+
+          <form action="proces.html" method="get" id="booking">
+            <div class="form-row">
+              <label for="contactname">Name:</label>
+              <input
+              title="Enter a valid name"
+                required
+                autofocus
+                pattern="[A-Z][a-z]+([A-Z][a-z]+)*"
+                type="text"
+                name="contactname"
+                id="contactname"
+              >
+            </div>
+              <div class="form-row">
+              <label for="email"> Email Adress: </label>
+              <input required title="Enter a valid email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]{2,}.[a-zA-Z0-9]{2,}" type="email" name="email" id="email">
+              </div>
+              <fieldset class="check">
+                <legend> Did you like the website? </legend>
+
+                <label for="Yes">
+                  <input type="radio" name="option" id="Yes">Yes</label>
+                  <label for="No">
+                  <input type="radio" name="option" id="No">No</label>
+                  </fieldset>
+                  <div class="form-row">
+              <label for="age">Age:</label>
+              <input required title="Enter a valid age" min="17" max="80" type="text" name="age" id="age">
+              </div>
+          <div class="form-row">
+            <label for="start_date">When are you submitting this?</label>
+            <input required title="Enter a valid Booking Date" type="date" name="booking_date" id="booking_date">
+          </div>
+          <div class="form-row">
+            <label for="myCar"> Favourite webpage </label>
+            <input type="text" list="car" name="myCar" id="myCar">
+            <datalist id="car">
+              <option value="Hobbies">
+                <option value="Interests">
+                <option value="Main page">
+                <option value="Favourite songs">
+                <option value="Favourite artists">
+            </datalist>
+          </div>
+          <p>
+            Please give appropriate feedback on this website ☆⋆｡𖦹°‧★
+          </p>
+          <div class="form-row">
+            <label for="textarea"> More details (as much as you think we'll need!) </label>
+            <textarea name="details" id="details"></textarea>
+            </div>
+            <button type="submit">Submit</button>
+            <button type="reset">Clear the info</button>
+        </form>
+        </section>
+        <section id="image">
+          <figure>
+            <img src="images/blueflowers.jpg" alt="Car" class="ui fluid image" width="200" height="200">
+            <figcaption> ☆⋆｡𖦹°‧★ </figcaption>
+          </figure>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

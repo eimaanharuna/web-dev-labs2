@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.4/semantic.min.css">
+    <title>About This Project</title>
+    <style>
+        .ui.container { margin-top: 2%; width: 80% !important; }
+        body { 
+            background-image: url(images/wallpaper2.jpg); 
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+            background-size: cover; 
+            color: rgb(0, 8, 127);
+        }
+        .content-box { 
+            background: rgba(255, 255, 255, 0.1); 
+            padding: 20px; 
+            border-radius: 10px; 
+            backdrop-filter: blur(5px); 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+        #tagline { font-style: italic; color: #4400ff; }
+        .ui.breadcrumb .section, .ui.breadcrumb .divider { color: rgba(255,255,255,0.8) !important; }
+        label { color: rgb(17, 8, 77) !important; }
+        .comment-item { background: rgba(170, 180, 243, 0.9); color: black; padding: 10px; margin-bottom: 5px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="ui container">
+
+        <header class="ui center aligned container">
+            <h1 class="ui center aligned header" style="color: rgb(0, 0, 0); margin-bottom: 0;">Eimaan haruna</h1>
+            <div class="ui breadcrumb">
+                <div class="active section">About Me</div>
+                <div class="divider"> / </div>
+                <div class="active section">☆⋆｡𖦹°‧★ <a href="index.html">Click here to return to home page!</a></div>
+            </div>
+            <p id="tagline">"What you are not changing, you're choosing."</p>
+        </header>
+
+        <div class="ui divider"></div>
+
+
+        <div class="ui center aligned header">
+            <h2 id="welcomeGreeting" style="color: rgb(0, 0, 0);">Hello!</h2>
+        </div>
+
+        <nav class="ui segment content-box" style="text-align: center;">
+            <div class="ui horizontal list">
+                <div class="item"><a href="movies.html" style="color: rgb(64, 64, 255);">˖.𖥔 ݁ ˖ ⊹ Movie Database ⋆｡°✩</a></div>
+                <div class="item"><a href="gallery.html" style="color: rgb(64, 74, 255);">˖.𖥔 ݁ ˖ ⊹ Gallery Database ⋆｡°✩</a></div>
+            </div>
+        </nav>
+
+
+        <div class="content-box">
+            <h2 class="ui header" style="color: white;">Project Overview</h2>
+            <p>This website serves as a personal portfolio and a functional Movie Database manager. It allows users to track their favorite cinema experiences, view ratings, and sort through their collections.</p>
+            
+
+            <button class="ui tiny blue button" id="toggleDataset">Show Dataset Info</button>
+            <div id="datasetInfo" style="display: none; margin-top: 15px;">
+                <h4 style="color: lightblue;">Dataset Information</h4>
+                <p>The data for the movies is stored in <strong>Local Storage</strong> and managed via a custom JavaScript array of objects. This ensures that your movie collection persists even after refreshing the page.</p>
+            </div>
+        </div>
+
+        <!-- COMMENT FEATURE -->
+        <div class="content-box">
+            <h2 class="ui header" style="color: white;">Leave a Comment</h2>
+            <form id="commentForm" class="ui form">
+                <div class="field">
+                    <label>Name</label>
+                    <input type="text" id="userName" placeholder="Your name" required>
+                </div>
+                <div class="field">
+                    <label>Message</label>
+                    <textarea id="userMsg" rows="2" placeholder="Tell me what you think!" required></textarea>
+                </div>
+                <button type="submit" class="ui green button">Post Comment</button>
+            </form>
+
+            <div class="ui divider"></div>
+            <h3 style="color: white;">Community Feedback</h3>
+            <div id="commentList"></div>
+        </div>
+    </div>
+
+    <!-- HANDLEBARS TEMPLATE FOR COMMENTS -->
+    <script id="comment-template" type="text/x-handlebars-template">
+        {{#each this}}
+            <div class="comment-item">
+                <strong>{{name}}</strong>: {{message}}
+            </div>
+        {{/each}}
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+    <script>
+
+        const hour = new Date().getHours();
+        const greeting = hour < 12 ? "Good Morning!" : hour < 18 ? "Good Afternoon!" : "Good Evening!";
+        document.getElementById('welcomeGreeting').textContent = `${greeting} Welcome to my project.`;
+
+        // 2. SHOW/HIDE LOGIC
+        const toggleBtn = document.querySelector("#toggleDataset");
+        const infoDiv = document.querySelector("#datasetInfo");
+        toggleBtn.addEventListener("click", () => {
+            const isHidden = infoDiv.style.display === "none";
+            infoDiv.style.display = isHidden ? "block" : "none";
+            toggleBtn.textContent = isHidden ? "Hide Dataset Info" : "Show Dataset Info";
+        });
+
+        // 3. COMMENT FEATURE LOGIC
+        const comments = [
+            { name: "★", message: "Stunna" },
+            { name: "✩", message: "Aesthetically pleasing" }
+        ];
+
+        const renderComments = () => {
+            const source = document.querySelector("#comment-template").innerHTML;
+            const template = Handlebars.compile(source);
+            // Slice().reverse() ensures the most recent is at the top
+            document.querySelector("#commentList").innerHTML = template([...comments].reverse());
+        };
+
+        document.querySelector("#commentForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const nameInput = document.querySelector("#userName");
+            const msgInput = document.querySelector("#userMsg");
+
+            comments.push({
+                name: nameInput.value,
+                message: msgInput.value
+            });
+
+            nameInput.value = "";
+            msgInput.value = "";
+            renderComments();
+        });
+
+        // Initial Load
+        renderComments();
+    </script>
+</body>
+</html>

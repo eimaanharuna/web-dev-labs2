@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Personal Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.4/semantic.min.css">
+    <style>
+        body {
+            background-image: url(images/wallpaper2.jpg);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        
+        header {
+            text-align: center; /* Center the breadcrumb and title area */
+            padding-bottom: 20px;
+        }
+
+        .ui.stackable.three.column.grid {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            margin: 1em 0 !important;
+        }
+
+        .ui.stackable.three.column.grid > .column {
+            width: 31% !important; /* Forces 3 per row */
+            margin: 1% !important;
+            transition: transform .8s ease;
+        }
+
+        .blogs {
+            text-align: center !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1); 
+            border-radius: 8px;
+            height: 100%; 
+        }
+
+        .blogs img {
+            width: 100% !important;
+            height: 180px !important; 
+            object-fit: cover; 
+            border-radius: 4px;
+            opacity: 0.5;
+            transition: opacity .8s ease;
+            margin-bottom: 10px;
+        }
+
+        .column:hover { transform: scale(1.05); }
+        .column:hover .blogs img { opacity: 1; }
+
+        .heart-btn {
+            background: #2185d0;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ui container"> 
+        <header>
+            <h1 style="color: white;">Eimaan haruna</h1>
+            <div class="ui breadcrumb">
+                <a class="section" href="#">Welcome</a>
+                <div class="divider"> / </div>
+                <div class="active section" style="color: white;">☆⋆｡𖦹°‧★ Home Page</div>
+            </div>
+            <p id="tagline" style="color: #eee;">"What you are not changing, you're choosing."</p>
+        </header>
+
+        <section id="content">
+            <h2 id="welcome-msg" class="blogs" style="color: white; background: none;">⋆⁺₊⋆ Welcome to my website ☆⋆｡𖦹°‧★</h2>
+            
+            <div class="ui stackable three column grid"> 
+
+                <!-- 1. Interests -->
+                <div class="column"> 
+                    <div class="blogs">
+                        <img src="images/blue jellyfish.jpg" alt="Interests">
+                        <h3>˖.𖥔 ݁ ˖ ⊹ My Interests ⋆｡°✩</h3>
+                        <p>Find out what my interests are!</p>
+                        <a href="interests.html" class="heart-btn">♡</a>
+                    </div>
+                </div>
+
+                <!-- 2. About Me -->
+                <div class="column">
+                    <div class="blogs">
+                        <img src="images/me and ashraf.jpeg" alt="About Me">
+                        <h3>˖.𖥔 ݁ ˖ ⊹ About Me ⋆｡°✩</h3>
+                        <p>Get to know a little more about me!</p>
+                        <a href="aboutme.html" class="heart-btn">♡</a>
+                    </div>
+                </div>
+
+                <!-- 3. Hobbies -->
+                <div class="column">
+                    <div class="blogs">
+                        <img src="images/blue galaxy.jpg" alt="Hobbies">
+                        <h3>˖.𖥔 ݁ ˖ ⊹ Hobbies ⋆｡°✩</h3>
+                        <p>Find out what my hobbies are!</p>
+                        <a href="hobbies.html" class="heart-btn">♡</a>
+                    </div>
+                </div>
+
+                <!-- 4. Artists -->
+                <div class="column">
+                    <div class="blogs">
+                        <img src="images/star.jpg" alt="Artists">
+                        <h3>˖.𖥔 ݁ ˖ ⊹ Artists ⋆｡°✩</h3>
+                        <p>Find out who my favourite artists are!</p>
+                        <a href="artists.html" class="heart-btn">♡</a>
+                    </div>
+                </div>
+
+                <!-- 5. Games -->
+                <div class="column">
+                    <div class="blogs">
+                        <img src="images/girl.jpg" alt="Games">
+                        <h3>˖.𖥔 ݁ ˖ ⊹ Games ⋆｡°✩</h3>
+                        <p>Find out my favourite games!</p>
+                        <a href="games.html" class="heart-btn">♡</a>
+                    </div>
+                </div>
+
+                <!-- 6. Form -->
+                <div class="column">
+                    <div class="blogs">
+                        <img src="images/bluegirl.jpg" alt="Form">
+                        <h3>˖.𖥔 ݁ ˖ ⊹ Form ⋆｡°✩</h3>
+                        <p>Send a feedback form!</p>
+                        <a href="form.html" class="heart-btn">♡</a>
+                    </div>
+                </div>
+
+                <!-- 7. Movies Database -->
+                <div class="column">
+                    <div class="blogs">
+                        <img src="images/baby.jpg" alt="Movies">
+                        <h3>˖.𖥔 ݁ ˖ ⊹ Movies Database ⋆｡°✩</h3>
+                        <p>Find out my favourite movies!</p>
+                        <a href="movies.html" class="heart-btn">♡</a>
+                    </div>
+                </div>
+
+                <!-- 8. Gallery Database -->
+                <div class="column">
+                    <div class="blogs">
+                        <img src="images/gallery11.jpg" alt="Gallery">
+                        <h3>˖.𖥔 ݁ ˖ ⊹ Gallery Database ⋆｡°✩</h3>
+                        <p>View the blue gallery!</p>
+                        <a href="gallery.html" class="heart-btn">♡</a>
+                    </div>
+                </div>
+
+                <!-- 9. About Website -->
+                <div class="column">
+                    <div class="blogs">
+                        <img src="images/blue heart icon.jpg" alt="About">
+                        <h3>˖.𖥔 ݁ ˖ ⊹ About Website ⋆｡°✩</h3>
+                        <p>Find out what this project is about!</p>
+                        <a href="about.html" class="heart-btn">♡</a>
+                    </div>
+                </div>
+
+            </div> 
+        </section>
+    </div>
+
+<script>
+    const welcomeHeading = document.getElementById('welcome-msg');
+    const hour = new Date().getHours();
+    let greeting = hour < 12 ? "Good Morning!" : hour < 18 ? "Good Afternoon!" : "Good Evening!";
+    welcomeHeading.innerHTML = `*+*+ ${greeting} Welcome to my website *+*+`;
+</script>
+</body>
+</html>
